@@ -4,7 +4,7 @@ CREATE SCHEMA oblig_3;
 SET search_path TO oblig_3;
 
 CREATE TABLE ansatt (
-	id INTEGER UNIQUE NOT NULL,
+	id SERIAL,
 	brukernavn VARCHAR(4) UNIQUE NOT NULL,
 	fornavn VARCHAR(10) NOT NULL,
 	etternavn VARCHAR(10) NOT NULL,
@@ -15,7 +15,6 @@ CREATE TABLE ansatt (
 );
 
 INSERT INTO ansatt (
-	id,
 	brukernavn,
 	fornavn,
 	etternavn,
@@ -23,7 +22,6 @@ INSERT INTO ansatt (
 	stilling,
 	maanedslonn
 ) VALUES (
-	1,
 	'shs',
 	'Simen',
 	'Strømsnes',
