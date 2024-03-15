@@ -17,19 +17,19 @@ public class Ansatt {
 	public String brukernavn;
 	public String fornavn;
 	public String etternavn;
-	public LocalDate annsettelsesdato;
+	public LocalDate ansettelsesdato;
 	public String stilling;
 	public Double maanedslonn;
 
 	public Ansatt() {
 	}
 
-	public Ansatt(String brukernavn, String fornavn, String etternavn, LocalDate annsettelsesdato, String stilling,
+	public Ansatt(String brukernavn, String fornavn, String etternavn, LocalDate ansettelsesdato, String stilling,
 			Double maanedslonn) {
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
-		this.annsettelsesdato = annsettelsesdato;
+		this.ansettelsesdato = ansettelsesdato;
 		this.stilling = stilling;
 		this.maanedslonn = maanedslonn;
 	}
@@ -62,12 +62,12 @@ public class Ansatt {
 		this.etternavn = etternavn;
 	}
 
-	public LocalDate getAnnsettelsesdato() {
-		return annsettelsesdato;
+	public LocalDate getAnsettelsesdato() {
+		return ansettelsesdato;
 	}
 
-	public void setAnnsettelsesdato(LocalDate annsettelsesdato) {
-		this.annsettelsesdato = annsettelsesdato;
+	public void setAnsettelsesdato(LocalDate ansettelsesdato) {
+		this.ansettelsesdato = ansettelsesdato;
 	}
 
 	public String getStilling() {
@@ -89,8 +89,8 @@ public class Ansatt {
 	@Override
 	public String toString() {
 		return "Ansatt [id=" + id + ", brukernavn=" + brukernavn + ", fornavn=" + fornavn + ", etternavn=" + etternavn
-				+ ", annsettelsesdato=" + annsettelsesdato + ", stilling=" + stilling + ", maanedslonn=" + maanedslonn
-				+ "]";
+				+ ", annsettelsesdato=" + ansettelsesdato + ", stilling=" + stilling + ", maanedslonn=" + maanedslonn
+				+ "]\n";
 	};
 
 }
