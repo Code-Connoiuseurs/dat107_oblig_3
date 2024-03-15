@@ -1,43 +1,87 @@
 package no.hvl.dat107;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
-import jakarta.persistence.TypedQuery;
-
 public class Main {
-	public static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("ansattPersistenceUnit");
-	private static Scanner scanner = new Scanner(System.in);
+	private static final AnsattDAO ansattDao = new AnsattDAO();
+	private static final Scanner scanner = new Scanner(System.in);
 	
 	public static void main(String[] args) {
-		// TODO Dette er midlertidig
-		while(true) {
+		boolean programKjører = true;		
+		while(programKjører) {
 			
-			System.out.print("Vennligst oppgi brukernavn du vil søke etter: ");
-			String sok = scanner.nextLine();
+			System.out.println("\nVennligst oppgi et valg:\n"
+					+ "q: lukk programmet\n"
+					+ "1: finn ansatt med id\n"
+					+ "2: finn ansatt med brukernavn\n"
+					+ "3: hent alle ansatte\n"
+					+ "4: oppdater ansatt sin stilling\n"
+					+ "5: oppdater ansatt sin lønn\n"
+					+ "6: legg til ny ansatt");
 			
-			if (sok.equals("q")) {
-				System.out.println("Program lukket");
-				scanner.close();
-				break;
+			String valg = scanner.nextLine();
+			
+			switch (valg) {
+				case "q":
+					scanner.close();
+					programKjører = false;
+					System.out.println("Program lukket");
+					break;
+				case "1":
+					System.out.print("Ansatt id: ");
+					System.out.println(ansattDao.finnAnsattMedId(scanner.nextInt()));
+					break;
+				case "2":
+					System.out.print("Ansatt brukernavn: ");
+					System.out.println(ansattDao.finnAnsattMedBrukernavn(scanner.nextLine()));
+					break;
+				case "3":
+					System.out.print("Alle ansatte: ");
+					System.out.println(ansattDao.hentAlleAnsatte());
+					break;
+				case "4":
+					System.out.print("Ansatt id: ");
+					int idStilling = scanner.nextInt();
+					System.out.print("Ny stilling: ");
+					String nyStilling = scanner.nextLine();
+					System.out.println(ansattDao.oppdaterStilling(idStilling, nyStilling));
+					break;
+				case "5":
+					System.out.print("Ansatt id: ");
+					int idLonn = scanner.nextInt();
+					System.out.print("Ny lønn: ");
+					String nyLonn = scanner.nextLine();
+					System.out.println(ansattDao.oppdaterStilling(idLonn, nyLonn));
+					break;
+				case "6":
+					System.out.println("TODO");
+					
+					System.out.print("Brukernavn: ");
+					String brukernavn = scanner.nextLine();
+					System.out.print("Fornavn: ");
+					String fornavn = scanner.nextLine();
+					System.out.print("Etternavn: ");
+					String etternavn = scanner.nextLine();
+					
+					LocalDate ansettelsesdato = LocalDate.now(); // Foresnkling
+					
+					System.out.print("Stilling: ");
+					String stilling = scanner.nextLine();
+					
+					System.out.print("Lønn: ");
+					Double lonn = scanner.nextDouble();
+					
+					System.out.println(ansattDao.lagreNyAnsatt(new Ansatt(
+							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn
+					)));
+					
+					break;
+				default:
+					System.out.println("Ugyldig valg, prøv igjen");
+					break;
 			}
 			
-			EntityManager em = emf.createEntityManager();
-			
-			try {
-				String q = "select a from Ansatt as a where a.brukernavn = :sok";
-				TypedQuery<Ansatt> tq = em.createQuery(q, Ansatt.class);
-				tq.setParameter("sok", sok);
-				Ansatt res =  tq.getSingleResult();
-				System.out.println(res); 
-			} catch (NoResultException e) {
-				System.out.println("Fant ikke Ansatt med brukernavn: " + sok);
-			} finally {
-				em.close();
-			}
 		}
 	}
 }

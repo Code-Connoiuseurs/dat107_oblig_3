@@ -10,7 +10,7 @@ CREATE TABLE ansatt (
 	etternavn VARCHAR(10) NOT NULL,
 	annsettelsesdato DATE,
 	stilling VARCHAR(10),
-	maanedslonn NUMERIC(8,2),
+	maanedslonn NUMERIC(12,2),
 	PRIMARY KEY (id)
 );
 

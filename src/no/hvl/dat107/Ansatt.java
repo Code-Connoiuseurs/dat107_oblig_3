@@ -11,20 +11,21 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ansatt", schema = "oblig_3")
 public class Ansatt {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) public Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Integer id;
 	public String brukernavn;
 	public String fornavn;
 	public String etternavn;
 	public LocalDate annsettelsesdato;
 	public String stilling;
 	public Double maanedslonn;
-	
-	public Ansatt() {}
 
-	public Ansatt(Integer id, String brukernavn, String fornavn, String etternavn, LocalDate annsettelsesdato,
-			String stilling, Double maanedslonn) {
-		super();
-		this.id = id;
+	public Ansatt() {
+	}
+
+	public Ansatt(String brukernavn, String fornavn, String etternavn, LocalDate annsettelsesdato, String stilling,
+			Double maanedslonn) {
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
@@ -35,10 +36,6 @@ public class Ansatt {
 
 	public Integer getId() {
 		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getBrukernavn() {
@@ -95,5 +92,5 @@ public class Ansatt {
 				+ ", annsettelsesdato=" + annsettelsesdato + ", stilling=" + stilling + ", maanedslonn=" + maanedslonn
 				+ "]";
 	};
-	
+
 }
