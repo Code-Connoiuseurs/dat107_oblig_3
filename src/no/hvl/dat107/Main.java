@@ -21,7 +21,7 @@ public class Main {
 					+ "6: legg til ny ansatt");
 			
 			String valg = scanner.nextLine();
-			
+			try {
 			switch (valg) {
 				case "q":
 					scanner.close();
@@ -30,35 +30,36 @@ public class Main {
 					break;
 				case "1":
 					System.out.print("Ansatt id: ");
-					System.out.println(ansattDao.finnAnsattMedId(scanner.nextInt()));
+					System.out.println(ansattDao.finnAnsattMedId(Integer.parseInt(scanner.nextLine())));
 					break;
 				case "2":
 					System.out.print("Ansatt brukernavn: ");
 					System.out.println(ansattDao.finnAnsattMedBrukernavn(scanner.nextLine()));
 					break;
 				case "3":
-					System.out.print("Alle ansatte: ");
+					System.out.println("Alle ansatte: ");
 					System.out.println(ansattDao.hentAlleAnsatte());
 					break;
 				case "4":
 					System.out.print("Ansatt id: ");
-					int idStilling = scanner.nextInt();
+					int idStilling = Integer.parseInt(scanner.nextLine());
 					System.out.print("Ny stilling: ");
 					String nyStilling = scanner.nextLine();
 					System.out.println(ansattDao.oppdaterStilling(idStilling, nyStilling));
 					break;
 				case "5":
 					System.out.print("Ansatt id: ");
-					int idLonn = scanner.nextInt();
+					int idLonn = Integer.parseInt(scanner.nextLine());
 					System.out.print("Ny lønn: ");
-					String nyLonn = scanner.nextLine();
-					System.out.println(ansattDao.oppdaterStilling(idLonn, nyLonn));
-					break;
-				case "6":
-					System.out.println("TODO");
 					
+					Double nyLonn = Double.parseDouble(scanner.nextLine());
+					System.out.println(ansattDao.oppdaterLonn(idLonn, nyLonn));
+
+					
+					break;
+				case "6":			
 					System.out.print("Brukernavn: ");
-					String brukernavn = scanner.nextLine();
+					String brukernavn = scanner.nextLine().toLowerCase();
 					System.out.print("Fornavn: ");
 					String fornavn = scanner.nextLine();
 					System.out.print("Etternavn: ");
@@ -70,7 +71,7 @@ public class Main {
 					String stilling = scanner.nextLine();
 					
 					System.out.print("Lønn: ");
-					Double lonn = scanner.nextDouble();
+					Double lonn = Double.parseDouble(scanner.nextLine());
 					
 					System.out.println(ansattDao.lagreNyAnsatt(new Ansatt(
 							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn
@@ -80,8 +81,11 @@ public class Main {
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");
 					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Id/lønn kan kun bestå av tall. Prøv igjen.");
+			} 
 			}
 			
 		}
 	}
-}
