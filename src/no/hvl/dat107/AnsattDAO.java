@@ -45,7 +45,7 @@ public class AnsattDAO {
 			TypedQuery<Ansatt> tq = em.createQuery(q, Ansatt.class);
 			tq.setParameter("brukernavn", brukernavn.toLowerCase());
 			return tq.getSingleResult();
-		} catch (EntityNotFoundException | NoResultException e) {
+		} catch (NoResultException e) {
 			System.out.println("Fant ikke Ansatt med brukernavn: " + brukernavn);
 			return null;
 		} finally {

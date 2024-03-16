@@ -37,7 +37,7 @@ public class Main {
 					System.out.println(ansattDao.finnAnsattMedBrukernavn(scanner.nextLine()));
 					break;
 				case "3":
-					System.out.print("Alle ansatte: \n");
+					System.out.println("Alle ansatte: ");
 					System.out.println(ansattDao.hentAlleAnsatte());
 					break;
 				case "4":
