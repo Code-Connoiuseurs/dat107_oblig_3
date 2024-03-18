@@ -87,7 +87,7 @@ public class Ansatt_min {
         System.out.println("Brukernavn: " + brukernavn);
         System.out.println("Fornavn: " + fornavn);
         System.out.println("Etternavn: " + etternavn);
-        System.out.println("Ansettelses_dato: " + ansett_dato);
+        System.out.println("Ansettelsesdato: " + ansett_dato);
         System.out.println("Stilling: " + stilling);
         System.out.println("Månedslønn: " + maanedslonn);
         System.out.println("Avdeling: " + avdeling_id);
