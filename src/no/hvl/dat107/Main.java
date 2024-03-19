@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
 	private static final AnsattDAO ansattDao = new AnsattDAO();
 	private static final Scanner scanner = new Scanner(System.in);
+	private static final AvdelingDAO avdelingDAO = new AvdelingDAO();
 	
 	public static void main(String[] args) {
 		boolean programKjører = true;		
@@ -18,7 +19,8 @@ public class Main {
 					+ "3: hent alle ansatte\n"
 					+ "4: oppdater ansatt sin stilling\n"
 					+ "5: oppdater ansatt sin lønn\n"
-					+ "6: legg til ny ansatt");
+					+ "6: legg til ny ansatt\n"
+					+ "7: finn avdeling med id");
 			
 			String valg = scanner.nextLine();
 			try {
@@ -73,10 +75,18 @@ public class Main {
 					System.out.print("Lønn: ");
 					Double lonn = Double.parseDouble(scanner.nextLine());
 					
+					System.out.print("Avdeling: ");
+					int avdeling = Integer.parseInt(scanner.nextLine());
+					
 					System.out.println(ansattDao.lagreNyAnsatt(new Ansatt(
-							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn
+							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn, avdeling
 					)));
 					
+					break;
+				case "7":
+					System.out.print("Avdelingsid:");
+					int avdelingsid = Integer.parseInt(scanner.nextLine());
+					System.out.println(avdelingDAO.finnAvdelingMedId(avdelingsid));
 					break;
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");
