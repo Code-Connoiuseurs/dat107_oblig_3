@@ -25,7 +25,7 @@ public class Ansatt_min {
 
 	public Ansatt_min(String brukernavn, String fornavn, String etternavn, LocalDate ansett_dato, String stilling,
 			Double maanedslonn, String avdeling) {
-
+		
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
@@ -87,8 +87,8 @@ public class Ansatt_min {
 		return maanedslonn;
 	}
 
-	public void setMndLonn(double mndLonn) {
-		this.maanedslonn = mndLonn;
+	public void setMaanedsLonn(double maanedsLonn) {
+		this.maanedslonn = maanedsLonn;
 	}
 
 	public String getAvdeling() {

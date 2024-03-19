@@ -1,12 +1,14 @@
 package Database_Script;
 
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class AnsattDAO_min {
@@ -66,7 +68,7 @@ public class AnsattDAO_min {
 		}
 	}
 
-	public boolean OppdaterStilling(Integer id, String nyStilling) {
+	public boolean oppdaterStilling(Integer id, String nyStilling) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
@@ -81,6 +83,56 @@ public class AnsattDAO_min {
 			} else {
 				return false;
 			}
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+
+	public boolean oppdaterLonn(Integer id, double nyLonn) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		try {
+			tx.begin();
+
+			Ansatt_min managedAn = em.find(Ansatt_min.class, id);
+			if (managedAn != null) {
+				managedAn.setMaanedsLonn(nyLonn);
+				tx.commit();
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+
+	public boolean leggTilNyAnsatt(Ansatt_min nyAnsatt) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		try {
+			tx.begin();
+
+			em.persist(nyAnsatt);
+
+			tx.commit();
+			return true;
 
 		} catch (Throwable e) {
 			e.printStackTrace();
