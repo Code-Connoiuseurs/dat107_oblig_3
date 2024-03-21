@@ -15,7 +15,7 @@ public class AvdelingDAO {
 		EntityManager em = emf.createEntityManager();
 
 		try {
-			String q = "select a from Avdeling as a where a.avdelingsid = :id";
+			String q = "select a from Avdeling as a where a.id = :id";
 			TypedQuery<Avdeling> tq = em.createQuery(q, Avdeling.class);
 			tq.setParameter("id", avdelingsid);
 			return tq.getSingleResult();

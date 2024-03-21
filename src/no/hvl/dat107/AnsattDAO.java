@@ -18,7 +18,7 @@ public class AnsattDAO {
 	 * Søker databasen for en ansatt basert på id
 	 * @return En Ansatt eller null
 	 */
-	public Ansatt finnAnsattMedId(int id) {
+	public Ansatt finnAnsattMedId(Integer id) {
 		EntityManager em = emf.createEntityManager();
 		try {
 			String q = "select a from Ansatt as a where a.id = :id";
@@ -133,6 +133,42 @@ public class AnsattDAO {
 			
 			em.persist(nyAnsatt);
 			
+			tx.commit();
+			return true;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+	
+	/**
+	 * Oppdater hvilken avdeling 
+	 */
+	
+	public boolean oppdaterAnsattSinAvdeling(Integer id, Integer avdelingsid) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		try {
+			tx.begin();
+			
+			Avdeling nyAvdeling = em.find(Avdeling.class, avdelingsid);
+			
+			Ansatt managedAnsatt = em.find(Ansatt.class, id);
+			Avdeling tidligereAvdeling = em.find(Avdeling.class, managedAnsatt.getAvdeling().getId());
+
+			
+			if (managedAnsatt.getId() != tidligereAvdeling.getSjef().getId()) {
+				managedAnsatt.setAvdeling(nyAvdeling);
+			} else {
+				System.out.println("Du kan ikke endre en sjef sin avdeling.");
+				return false;
+			}			
 			tx.commit();
 			return true;
 		} catch (Throwable e) {
