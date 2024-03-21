@@ -36,10 +36,10 @@ INSERT INTO ansatt (
 	('lmno', 'Luggvald', 'Osnestangbuktvikfjord', '2023-03-19', 'Tønnesnekker',554433, 2);
 	
 CREATE TABLE avdeling (
-	avdelingsId SERIAL UNIQUE,
+	id SERIAL UNIQUE,
 	navn VARCHAR(30),
 	sjefsId INT NOT NULL,
-	PRIMARY KEY (avdelingsId),
+	PRIMARY KEY (id),
 	FOREIGN KEY (sjefsId) REFERENCES ansatt(id)
 ); 
  
@@ -54,6 +54,6 @@ INSERT INTO avdeling (
 ;
 
 ALTER TABLE ansatt ADD CONSTRAINT avdFK
-FOREIGN KEY (avdelingsid) REFERENCES avdeling(avdelingsId);
+FOREIGN KEY (avdelingsid) REFERENCES avdeling(id);
 
 SELECT * FROM ansatt;
