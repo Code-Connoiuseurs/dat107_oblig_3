@@ -20,46 +20,45 @@ public class Main {
 					+ "4: oppdater ansatt sin stilling\n"
 					+ "5: oppdater ansatt sin lønn\n"
 					+ "6: legg til ny ansatt\n"
-					+ "7: finn avdeling med id");
+					+ "7: finn avdeling med id\n"
+					+ "8: legg til ny avdeling\n");
 			
 			String valg = scanner.nextLine();
 			try {
 			switch (valg) {
-				case "q":
+				case "q": // lukk programmet
 					scanner.close();
 					programKjører = false;
 					System.out.println("Program lukket");
 					break;
-				case "1":
+				case "1": // finn ansatt med id
 					System.out.print("Ansatt id: ");
 					System.out.println(ansattDao.finnAnsattMedId(Integer.parseInt(scanner.nextLine())));
 					break;
-				case "2":
+				case "2": // finn ansatt med brukernavn
 					System.out.print("Ansatt brukernavn: ");
 					System.out.println(ansattDao.finnAnsattMedBrukernavn(scanner.nextLine()));
 					break;
-				case "3":
+				case "3": // hent alle ansatte
 					System.out.println("Alle ansatte: ");
 					System.out.println(ansattDao.hentAlleAnsatte());
 					break;
-				case "4":
+				case "4": // oppdater ansatt sin stilling
 					System.out.print("Ansatt id: ");
 					int idStilling = Integer.parseInt(scanner.nextLine());
 					System.out.print("Ny stilling: ");
 					String nyStilling = scanner.nextLine();
 					System.out.println(ansattDao.oppdaterStilling(idStilling, nyStilling));
 					break;
-				case "5":
+				case "5": // oppdater ansatt sin lønn
 					System.out.print("Ansatt id: ");
 					int idLonn = Integer.parseInt(scanner.nextLine());
 					System.out.print("Ny lønn: ");
 					
 					Double nyLonn = Double.parseDouble(scanner.nextLine());
 					System.out.println(ansattDao.oppdaterLonn(idLonn, nyLonn));
-
-					
 					break;
-				case "6":			
+				case "6": // legg til ny ansatt	
 					System.out.print("Brukernavn: ");
 					String brukernavn = scanner.nextLine().toLowerCase();
 					System.out.print("Fornavn: ");
@@ -67,7 +66,7 @@ public class Main {
 					System.out.print("Etternavn: ");
 					String etternavn = scanner.nextLine();
 					
-					LocalDate ansettelsesdato = LocalDate.now(); // Foresnkling
+					LocalDate ansettelsesdato = LocalDate.now(); // Forenkling
 					
 					System.out.print("Stilling: ");
 					String stilling = scanner.nextLine();
@@ -84,12 +83,25 @@ public class Main {
 					System.out.println(ansattDao.lagreNyAnsatt(new Ansatt(
 							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn, avdeling
 					)));
-					
 					break;
-				case "7":
+				case "7": // finn avdeling med id
 					System.out.print("Avdelingsid:");
 					int avdelingsid7 = Integer.parseInt(scanner.nextLine());
 					System.out.println(avdelingDAO.finnAvdelingMedId(avdelingsid7));
+					break;
+				case "8": // legg til ny avdeling
+					System.out.print("Navn på avdeling:");
+					String avdelingsNavn = scanner.nextLine();
+					
+					System.out.print("Ny sjef sitt brukernavn:");
+					String sjefsBrukernavn = scanner.nextLine();
+					
+					Ansatt sjef = ansattDao.finnAnsattMedBrukernavn(sjefsBrukernavn);
+					if (sjef == null) break;
+					
+					System.out.println(avdelingDAO.lagreNyAvdeling(new Avdeling(
+						avdelingsNavn, sjef
+					)));
 					break;
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");

@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ansatt", schema = "oblig_3")
 public class Ansatt {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -26,7 +26,7 @@ public class Ansatt {
 	private LocalDate ansettelsesdato;
 	private String stilling;
 	private Double maanedslonn;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "avdelingsid")
 	private Avdeling avdeling;
@@ -35,7 +35,7 @@ public class Ansatt {
 	}
 
 	public Ansatt(String brukernavn, String fornavn, String etternavn, LocalDate ansettelsesdato, String stilling,
-			Double maanedslonn, Avdeling avdeling){
+			Double maanedslonn, Avdeling avdeling) {
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
@@ -109,7 +109,7 @@ public class Ansatt {
 	public String toString() {
 		return "Ansatt [id=" + id + ", brukernavn=" + brukernavn + ", fornavn=" + fornavn + ", etternavn=" + etternavn
 				+ ", annsettelsesdato=" + ansettelsesdato + ", stilling=" + stilling + ", maanedslonn=" + maanedslonn
-				+ ", avdelingsid= " + avdeling.getId() + "]\n" ;
+				+ ", avdelingsid= " + avdeling.getId() + "]\n";
 	};
 
 }

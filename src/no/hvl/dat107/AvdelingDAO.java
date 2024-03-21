@@ -2,6 +2,7 @@ package no.hvl.dat107;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
@@ -25,4 +26,31 @@ public class AvdelingDAO {
 			em.close();
 		}
 	}
+	
+	public boolean lagreNyAvdeling(Avdeling nyAvdeling) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		try {
+			tx.begin();
+			
+			Ansatt sjef = nyAvdeling.getSjef();
+			sjef.setAvdeling(nyAvdeling);
+			em.merge(sjef);
+			
+			em.persist(nyAvdeling);
+			
+			tx.commit();
+			return true;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+	
 }
