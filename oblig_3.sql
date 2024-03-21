@@ -56,4 +56,33 @@ INSERT INTO avdeling (
 ALTER TABLE ansatt ADD CONSTRAINT avdFK
 FOREIGN KEY (avdelingsid) REFERENCES avdeling(id);
 
-SELECT * FROM ansatt;
+CREATE TABLE prosjekt (
+	id SERIAL UNIQUE,
+	navn VARCHAR(30),
+	beskrivelse VARCHAR(150),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE prosjektdeltagelse (
+	id SERIAL UNIQUE,
+	prosjektid INTEGER NOT NULL,
+	ansattid INTEGER NOT NULL,
+	arbeidstimer INTEGER,
+	PRIMARY KEY (id),
+	FOREIGN KEY (prosjektid) REFERENCES prosjekt(id),
+	FOREIGN KEY (ansattid) REFERENCES ansatt(id)
+);
+
+INSERT INTO prosjekt (
+	navn, beskrivelse
+) VALUES 
+	('Solreise', 'Til sola og tilbake')
+;
+
+INSERT INTO prosjektdeltagelse (
+	prosjektid, ansattid
+) VALUES 
+	(1, 1)
+;
+
+SELECT * FROM prosjektdeltagelse;
