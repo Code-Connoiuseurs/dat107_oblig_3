@@ -1,16 +1,15 @@
 package no.hvl.dat107;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -30,6 +29,9 @@ public class Ansatt {
 	@ManyToOne
 	@JoinColumn(name = "avdelingsid")
 	private Avdeling avdeling;
+	
+    @OneToMany(mappedBy="ansatt")
+    private List<Prosjektdeltagelse> deltagelser;
 
 	public Ansatt() {
 	}
@@ -44,6 +46,14 @@ public class Ansatt {
 		this.maanedslonn = maanedslonn;
 		this.avdeling = avdeling;
 	}
+	
+    public void leggTilProsjektdeltagelse(Prosjektdeltagelse prosjektdeltagelse) {
+        deltagelser.add(prosjektdeltagelse);
+    }
+
+    public void fjernProsjektdeltagelse(Prosjektdeltagelse prosjektdeltagelse) {
+        deltagelser.remove(prosjektdeltagelse);
+    }
 
 	public Integer getId() {
 		return id;
