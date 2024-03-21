@@ -7,16 +7,23 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "avdeling", schema = "oblig_3")
 public class Avdeling {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer avdelingsid;
-	public String navn;
+	private Integer id;
+	private String navn;
+
+	@OneToOne
+	@JoinColumn(name = "sjefsid")
+	private Ansatt sjef;
 	
 	@OneToMany (mappedBy = "avdeling", fetch = FetchType.EAGER )
 	private List<Ansatt> ansatte;
@@ -25,16 +32,33 @@ public class Avdeling {
 
 	}
 
-	public Avdeling(String navn) {
+	public Avdeling(String navn, Ansatt sjef) {
 		this.navn = navn;
+		this.sjef = sjef;
 	}
 
-	public Integer getAvdelingsid() {
-		return avdelingsid;
+	public Ansatt getSjef() {
+		return sjef;
 	}
 
-	public void setAvdelingsid(Integer avdelingsid) {
-		this.avdelingsid = avdelingsid;
+	public void setSjef(Ansatt sjef) {
+		this.sjef = sjef;
+	}
+
+	public List<Ansatt> getAnsatte() {
+		return ansatte;
+	}
+
+	public void setAnsatte(List<Ansatt> ansatte) {
+		this.ansatte = ansatte;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getNavn() {
@@ -44,12 +68,10 @@ public class Avdeling {
 	public void setNavn(String navn) {
 		this.navn = navn;
 	}
-
-
 	
 	@Override
 	public String toString() {
-		String s = "Avdeling [avdelingsid=" + avdelingsid + ", navn=" + navn + ", sjefsId=" + "]\n";
+		String s = "Avdeling [avdelingsid=" + id + ", navn=" + navn + ", sjefsId=" + sjef.getId() + "]\n";
 		for(Ansatt a : ansatte) {
 			s+= "\t" + a;
 		}
