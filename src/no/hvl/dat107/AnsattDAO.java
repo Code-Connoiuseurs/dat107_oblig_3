@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Id;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
@@ -19,7 +20,6 @@ public class AnsattDAO {
 	 */
 	public Ansatt finnAnsattMedId(int id) {
 		EntityManager em = emf.createEntityManager();
-
 		try {
 			String q = "select a from Ansatt as a where a.id = :id";
 			TypedQuery<Ansatt> tq = em.createQuery(q, Ansatt.class);

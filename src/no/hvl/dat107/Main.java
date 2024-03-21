@@ -75,8 +75,11 @@ public class Main {
 					System.out.print("Lønn: ");
 					Double lonn = Double.parseDouble(scanner.nextLine());
 					
-					System.out.print("Avdeling: ");
-					int avdeling = Integer.parseInt(scanner.nextLine());
+					System.out.print("AvdelingsId: ");
+					int avdelingsid6 = Integer.parseInt(scanner.nextLine());
+					Avdeling avdeling = avdelingDAO.finnAvdelingMedId(avdelingsid6);
+					
+					if (avdeling == null) break;
 					
 					System.out.println(ansattDao.lagreNyAnsatt(new Ansatt(
 							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn, avdeling
@@ -85,8 +88,8 @@ public class Main {
 					break;
 				case "7":
 					System.out.print("Avdelingsid:");
-					int avdelingsid = Integer.parseInt(scanner.nextLine());
-					System.out.println(avdelingDAO.finnAvdelingMedId(avdelingsid));
+					int avdelingsid7 = Integer.parseInt(scanner.nextLine());
+					System.out.println(avdelingDAO.finnAvdelingMedId(avdelingsid7));
 					break;
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");

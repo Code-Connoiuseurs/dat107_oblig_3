@@ -13,13 +13,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "avdeling", schema = "oblig_3")
 public class Avdeling {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer avdelingsid;
 	public String navn;
-	public int sjefsid;
-	
 	
 	@OneToMany (mappedBy = "avdeling", fetch = FetchType.EAGER )
 	private List<Ansatt> ansatte;
@@ -28,10 +25,8 @@ public class Avdeling {
 
 	}
 
-	public Avdeling(Integer avdelingsid, String navn, int sjefsid) {
-		this.avdelingsid = avdelingsid;
+	public Avdeling(String navn) {
 		this.navn = navn;
-		this.sjefsid = sjefsid;
 	}
 
 	public Integer getAvdelingsid() {
@@ -50,17 +45,11 @@ public class Avdeling {
 		this.navn = navn;
 	}
 
-	public Integer getSjefsid() {
-		return sjefsid;
-	}
 
-	public void setSjefsid(Integer sjefsid) {
-		this.sjefsid = sjefsid;
-	}
 	
 	@Override
 	public String toString() {
-		String s = "Avdeling [avdelingsid=" + avdelingsid + ", navn=" + navn + ", sjefsId=" + sjefsid + "]\n";
+		String s = "Avdeling [avdelingsid=" + avdelingsid + ", navn=" + navn + ", sjefsId=" + "]\n";
 		for(Ansatt a : ansatte) {
 			s+= "\t" + a;
 		}
