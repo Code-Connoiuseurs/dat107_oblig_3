@@ -21,7 +21,8 @@ public class Main {
 					+ "5: oppdater ansatt sin lønn\n"
 					+ "6: legg til ny ansatt\n"
 					+ "7: finn avdeling med id\n"
-					+ "8: legg til ny avdeling\n");
+					+ "8: legg til ny avdeling\n"
+					+ "9: oppdater ansatt sin avdeling");
 			
 			String valg = scanner.nextLine();
 			try {
@@ -102,6 +103,14 @@ public class Main {
 					System.out.println(avdelingDAO.lagreNyAvdeling(new Avdeling(
 						avdelingsNavn, sjef
 					)));
+					break;
+					
+				case "9": // Oppdater ansatt sin avdeling
+					System.out.print("Ansatt id:");
+					int ansattId = Integer.parseInt(scanner.nextLine());
+					System.out.print("Ny avdelingsid:");
+					int avdelingsid8 = Integer.parseInt(scanner.nextLine());
+					System.out.println(ansattDao.oppdaterAnsattSinAvdeling(ansattId, avdelingsid8));
 					break;
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");

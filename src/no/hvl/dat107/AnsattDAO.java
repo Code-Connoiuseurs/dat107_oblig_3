@@ -10,18 +10,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
-import no.hvl.dat107.entity.Ansatt;
-import no.hvl.dat107.entity.Prosjekt;
-import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class AnsattDAO {
 	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("ansattPersistenceUnit");
 
 	/**
 	 * Søker databasen for en ansatt basert på id
+	 * 
 	 * @return En Ansatt eller null
 	 */
-	public Ansatt finnAnsattMedId(int id) {
+	public Ansatt finnAnsattMedId(Integer id) {
 		EntityManager em = emf.createEntityManager();
 		try {
 			String q = "select a from Ansatt as a where a.id = :id";
@@ -38,6 +36,7 @@ public class AnsattDAO {
 
 	/**
 	 * Søker databasen for en ansatt basert på brukernavn
+	 * 
 	 * @return En Ansatt eller null
 	 */
 	public Ansatt finnAnsattMedBrukernavn(String brukernavn) {
@@ -58,6 +57,7 @@ public class AnsattDAO {
 
 	/**
 	 * Søker databasen for alle ansatte
+	 * 
 	 * @return En liste med Ansatte eller en tom liste
 	 */
 	public List<Ansatt> hentAlleAnsatte() {
@@ -81,10 +81,10 @@ public class AnsattDAO {
 
 		try {
 			tx.begin();
-			
+
 			Ansatt managedAnsatt = em.find(Ansatt.class, id);
 			managedAnsatt.setStilling(nyStilling);
-			
+
 			tx.commit();
 			return true;
 		} catch (Throwable e) {
@@ -97,7 +97,7 @@ public class AnsattDAO {
 			em.close();
 		}
 	}
-	
+
 	/**
 	 * Oppdaterer en ansatt sin lønn
 	 */
@@ -107,10 +107,10 @@ public class AnsattDAO {
 
 		try {
 			tx.begin();
-			
+
 			Ansatt managedAnsatt = em.find(Ansatt.class, id);
 			managedAnsatt.setMaanedslonn(nylonn);
-			
+
 			tx.commit();
 			return true;
 		} catch (Throwable e) {
@@ -133,9 +133,9 @@ public class AnsattDAO {
 
 		try {
 			tx.begin();
-			
+
 			em.persist(nyAnsatt);
-			
+
 			tx.commit();
 			return true;
 		} catch (Throwable e) {
@@ -148,76 +148,110 @@ public class AnsattDAO {
 			em.close();
 		}
 	}
-	
-public void registrerProsjektdeltagelse(int ansattId, int prosjektId) {
-        
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        
-        try {
-            tx.begin();
-            
-            Ansatt a = em.find(Ansatt.class, ansattId);
-            Prosjekt p = em.find(Prosjekt.class, prosjektId);
-           
-            Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, 0);
 
-            em.persist(pd);
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-        } finally {
-            em.close();
-        }
-        
-    }
+	public void registrerProsjektdeltagelse(int ansattId, int prosjektId) {
 
-    public void slettProsjektdeltagelse(int ansattId, int prosjektId) {
-    	
-        EntityManager em = emf.createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
 
-            //TODO - Må søke med JPQL. Ellers som i b) Se hjelpemetode under.
-            
-            tx.commit();
-        } catch (Throwable e) {
-            e.printStackTrace();
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-        } finally {
-            em.close();
-        }
-    }
+		try {
+			tx.begin();
 
-    @SuppressWarnings("unused")
+			Ansatt a = em.find(Ansatt.class, ansattId);
+			Prosjekt p = em.find(Prosjekt.class, prosjektId);
+
+			Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, 0);
+
+			em.persist(pd);
+
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		} finally {
+			em.close();
+		}
+
+	}
+
+	public void slettProsjektdeltagelse(int ansattId, int prosjektId) {
+
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+
+			// TODO - Må søke med JPQL. Ellers som i b) Se hjelpemetode under.
+
+			tx.commit();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+		} finally {
+			em.close();
+		}
+	}
+
+	@SuppressWarnings("unused")
 	private Prosjektdeltagelse finnProsjektdeltagelse(int ansattId, int prosjektId) {
-        
-        String queryString = "SELECT pd FROM Prosjektdeltagelse pd " 
-                + "WHERE pd.ansatt.id = :ansattId AND pd.prosjekt.id = :prosjektId";
 
-        EntityManager em = emf.createEntityManager();
+		String queryString = "SELECT pd FROM Prosjektdeltagelse pd "
+				+ "WHERE pd.ansatt.id = :ansattId AND pd.prosjekt.id = :prosjektId";
 
-        Prosjektdeltagelse pd = null;
-        try {
-            TypedQuery<Prosjektdeltagelse> query 
-                    = em.createQuery(queryString, Prosjektdeltagelse.class);
-            query.setParameter("ansattId", ansattId);
-            query.setParameter("prosjektId", prosjektId);
-            pd = query.getSingleResult();
-            
-        } catch (NoResultException e) {
-            // e.printStackTrace();
-        } finally {
-            em.close();
-        }
-        return pd;
-    }
-	
+		EntityManager em = emf.createEntityManager();
+
+		Prosjektdeltagelse pd = null;
+		try {
+			TypedQuery<Prosjektdeltagelse> query = em.createQuery(queryString, Prosjektdeltagelse.class);
+			query.setParameter("ansattId", ansattId);
+			query.setParameter("prosjektId", prosjektId);
+			pd = query.getSingleResult();
+
+		} catch (NoResultException e) {
+			// e.printStackTrace();
+		} finally {
+			em.close();
+		}
+		return pd;
+	}
+
+	/**
+	 * Oppdater hvilken avdeling
+	 */
+
+	public boolean oppdaterAnsattSinAvdeling(Integer id, Integer avdelingsid) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+
+		try {
+			tx.begin();
+
+			Avdeling nyAvdeling = em.find(Avdeling.class, avdelingsid);
+
+			Ansatt managedAnsatt = em.find(Ansatt.class, id);
+			Avdeling tidligereAvdeling = em.find(Avdeling.class, managedAnsatt.getAvdeling().getId());
+
+			if (managedAnsatt.getId() != tidligereAvdeling.getSjef().getId()) {
+				managedAnsatt.setAvdeling(nyAvdeling);
+			} else {
+				System.out.println("Du kan ikke endre en sjef sin avdeling.");
+				return false;
+			}
+			tx.commit();
+			return true;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+
 }
