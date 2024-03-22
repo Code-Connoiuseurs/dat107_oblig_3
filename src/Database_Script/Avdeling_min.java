@@ -1,12 +1,9 @@
 package Database_Script;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -17,10 +14,7 @@ public class Avdeling_min {
 	private Integer avdeling_id;
 	private String navn;
 	
-	@OneToMany(mappedBy = "avdeling")
-	private List<Ansatt_min> ansattListe;
-	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "avdeling_sjef_id")
 	private Ansatt_min avdeling_sjef_id;
 	
