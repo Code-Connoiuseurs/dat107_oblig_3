@@ -1,8 +1,9 @@
-package no.hvl.dat107;
+package no.hvl.dat107.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import no.hvl.dat107.entity.Prosjekt;
 
 public class ProsjektDAO {
 

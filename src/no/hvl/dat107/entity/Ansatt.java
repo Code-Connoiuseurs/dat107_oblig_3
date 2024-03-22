@@ -1,4 +1,4 @@
-package no.hvl.dat107;
+package no.hvl.dat107.entity;
 
 import java.time.LocalDate;
 import java.util.List;

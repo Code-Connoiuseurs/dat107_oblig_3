@@ -3,6 +3,11 @@ package no.hvl.dat107;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import no.hvl.dat107.dao.AnsattDAO;
+import no.hvl.dat107.dao.AvdelingDAO;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
+
 public class Main {
 	private static final AnsattDAO ansattDao = new AnsattDAO();
 	private static final Scanner scanner = new Scanner(System.in);

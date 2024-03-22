@@ -1,4 +1,4 @@
-package no.hvl.dat107;
+package no.hvl.dat107.dao;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -6,6 +6,8 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
 
 public class AvdelingDAO {
 	
@@ -35,8 +37,14 @@ public class AvdelingDAO {
 			tx.begin();
 			
 			Ansatt sjef = nyAvdeling.getSjef();
-			sjef.setAvdeling(nyAvdeling);
-			em.merge(sjef);
+			Avdeling tidligereAvdeling = em.find(Avdeling.class, sjef.getAvdeling().getId());
+
+			if (sjef.getId() != tidligereAvdeling.getSjef().getId()) {
+				sjef.setAvdeling(nyAvdeling);
+			} else {
+				System.out.println("Du kan ikke endre en sjef sin avdeling.");
+				return false;
+			}
 			
 			em.persist(nyAvdeling);
 			

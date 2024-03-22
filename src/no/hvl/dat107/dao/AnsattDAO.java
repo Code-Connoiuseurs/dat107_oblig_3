@@ -1,15 +1,17 @@
-package no.hvl.dat107;
+package no.hvl.dat107.dao;
 
 import java.util.List;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Id;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
+import no.hvl.dat107.entity.Ansatt;
+import no.hvl.dat107.entity.Avdeling;
+import no.hvl.dat107.entity.Prosjekt;
+import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class AnsattDAO {
 	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("ansattPersistenceUnit");
@@ -220,7 +222,7 @@ public class AnsattDAO {
 	}
 
 	/**
-	 * Oppdater hvilken avdeling
+	 * Oppdater hvilken avdeling en ansatt jobber ved. Lar deg ikke endre avdeling på ansatte som også er sjef.
 	 */
 
 	public boolean oppdaterAnsattSinAvdeling(Integer id, Integer avdelingsid) {

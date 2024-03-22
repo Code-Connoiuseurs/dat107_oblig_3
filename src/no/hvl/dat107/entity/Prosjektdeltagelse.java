@@ -1,4 +1,4 @@
-package no.hvl.dat107;
+package no.hvl.dat107.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,8 +6,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import no.hvl.dat107.Ansatt;
-import no.hvl.dat107.Prosjekt;
 
 @Entity
 public class Prosjektdeltagelse {
