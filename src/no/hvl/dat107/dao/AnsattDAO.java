@@ -151,7 +151,10 @@ public class AnsattDAO {
 		}
 	}
 
-	public void registrerProsjektdeltagelse(int ansattId, int prosjektId) {
+	/**
+	 * Registrerer prosjektdeltagelse
+	 */
+	public boolean registrerProsjektdeltagelse(int ansattId, int prosjektId, String rolle) {
 
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
@@ -161,25 +164,37 @@ public class AnsattDAO {
 
 			Ansatt a = em.find(Ansatt.class, ansattId);
 			Prosjekt p = em.find(Prosjekt.class, prosjektId);
-
-			Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, 0);
+			if (p == null) {
+				System.out.println("Prosjekt med id " + prosjektId + " finnes ikke.");
+				return false;
+			}
+			Prosjektdeltagelse tidligerePd = finnProsjektdeltagelse(ansattId, prosjektId);
+			if (tidligerePd != null) {
+				System.out.println("Ansatt med id " + ansattId + " deltar allerede på dette prosjektet.");
+				return false;
+			}
+			Prosjektdeltagelse pd = new Prosjektdeltagelse(a, p, 0, rolle);
 
 			em.persist(pd);
 
 			tx.commit();
+			return true;
 		} catch (Throwable e) {
 			e.printStackTrace();
 			if (tx.isActive()) {
 				tx.rollback();
 			}
+			return false;
 		} finally {
 			em.close();
 		}
 
 	}
 
-	@SuppressWarnings("unused")
-	private Prosjektdeltagelse finnProsjektdeltagelse(int ansattId, int prosjektId) {
+	/**
+	 * Finner prosjektdeltagelse
+	 */
+	private Prosjektdeltagelse finnProsjektdeltagelse(Integer ansattId, Integer prosjektId) {
 
 		String queryString = "SELECT pd FROM Prosjektdeltagelse pd "
 				+ "WHERE pd.ansatt.id = :ansattId AND pd.prosjekt.id = :prosjektId";
@@ -235,5 +250,29 @@ public class AnsattDAO {
 			em.close();
 		}
 	}
+	
+	public boolean oppdaterTimer(Integer ansattid, Integer prosjektid, Integer timer) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
 
+		try {
+			tx.begin();
+
+			Prosjektdeltagelse pd = finnProsjektdeltagelse(ansattid, prosjektid);
+			Prosjektdeltagelse managedPd = em.merge(pd);
+			managedPd.setArbeidstimer(timer);
+
+			tx.commit();
+			return true;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			if (tx.isActive()) {
+				tx.rollback();
+			}
+			return false;
+		} finally {
+			em.close();
+		}
+	}
+	
 }

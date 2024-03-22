@@ -9,6 +9,7 @@ import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
 import no.hvl.dat107.entity.Prosjekt;
+import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class Main {
 	private static final AnsattDAO ansattDao = new AnsattDAO();
@@ -31,7 +32,10 @@ public class Main {
 					+ "7: finn avdeling med id\n"
 					+ "8: legg til ny avdeling\n"
 					+ "9: oppdater ansatt sin avdeling\n"
-					+ "10: legg til nytt prosjekt");
+					+ "10: legg til nytt prosjekt\n"
+					+ "11: registrer prosjektdeltagelse\n"
+					+ "12: registrer timer for ansatt på prosjekt\n"
+					+ "13: skriv ut alle prosjekter");
 			
 			String valg = scanner.nextLine();
 			try {
@@ -146,6 +150,30 @@ public class Main {
 						prosjektNavn, prosjektBeskrivelse
 					)));
 					break;
+				case "11": // Registrer prosjektdeltagelse
+					// ansattid, prosjektid, rolle
+					System.out.print("Ansatt id: ");
+					int aId = Integer.parseInt(scanner.nextLine());
+					System.out.print("Prosjektid:");
+					int pId = Integer.parseInt(scanner.nextLine());
+					System.out.print("Rolle i prosjektet: ");
+					String rolle = scanner.nextLine();
+					System.out.println(ansattDao.registrerProsjektdeltagelse(aId, pId, rolle));
+					break;
+				case "12": // Føre timer for en ansatt på prosjekt
+					System.out.print("Ansatt id: ");
+					int aId2 = Integer.parseInt(scanner.nextLine());
+					System.out.print("Prosjektid:");
+					int pId2 = Integer.parseInt(scanner.nextLine());
+					System.out.print("Antall timer arbeidet:");
+					int timer = Integer.parseInt(scanner.nextLine());
+					System.out.println(ansattDao.oppdaterTimer(aId2, pId2, timer));
+					break;		
+				case "13": // Skriv ut info om prosjekt
+					System.out.println("Alle prosjekter: ");
+					System.out.println(prosjektDAO.hentAlleProsjektdeltagelser());
+					break;
+
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");
 					break;

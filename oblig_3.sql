@@ -68,6 +68,7 @@ CREATE TABLE prosjektdeltagelse (
 	prosjektid INTEGER NOT NULL,
 	ansattid INTEGER NOT NULL,
 	arbeidstimer INTEGER,
+	rolle VARCHAR(30),
 	PRIMARY KEY (id),
 	FOREIGN KEY (prosjektid) REFERENCES prosjekt(id),
 	FOREIGN KEY (ansattid) REFERENCES ansatt(id)
@@ -80,9 +81,9 @@ INSERT INTO prosjekt (
 ;
 
 INSERT INTO prosjektdeltagelse (
-	prosjektid, ansattid
+	prosjektid, ansattid, arbeidstimer, rolle
 ) VALUES 
-	(1, 1)
+	(1, 1, 0, 'Scrum Master')
 ;
 
 SELECT * FROM prosjektdeltagelse;

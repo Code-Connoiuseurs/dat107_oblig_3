@@ -7,8 +7,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "prosjekt", schema = "oblig_3")
+
 public class Prosjekt {
 	
 	@Id
@@ -53,5 +56,10 @@ public class Prosjekt {
 
 	public List<Prosjektdeltagelse> getDeltagelser() {
 		return deltagelser;
+	}
+	@Override
+	public String toString() {
+		return "Prosjekt [id=" + id + ", navn=" + navn + ", beskrivelse=" + beskrivelse + ", deltagelser=" + deltagelser
+				+ "]";
 	}
 }
