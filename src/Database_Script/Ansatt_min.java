@@ -1,9 +1,11 @@
 package Database_Script;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,13 +21,15 @@ public class Ansatt_min {
 	private String stilling;
 	private Double maanedslonn;
 	private String avdeling_id;
+	
+	@OneToMany(mappedBy = "avdeling_sjef_id")
+	private List<Avdeling_min> avdeling;
 
 	public Ansatt_min() {
 	}
 
 	public Ansatt_min(String brukernavn, String fornavn, String etternavn, LocalDate ansett_dato, String stilling,
 			Double maanedslonn, String avdeling) {
-		
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
@@ -34,7 +38,6 @@ public class Ansatt_min {
 		this.maanedslonn = maanedslonn;
 		this.avdeling_id = avdeling;
 	}
-
 	public Integer getAnsattId() {
 		return ansatt_id;
 	}
@@ -91,13 +94,20 @@ public class Ansatt_min {
 		this.maanedslonn = maanedsLonn;
 	}
 
-	public String getAvdeling() {
+	public String getAvdelingId() {
 		return avdeling_id;
 	}
 
 	public void setAvdeling(String avdeling) {
 		this.avdeling_id = avdeling;
 	}
+	public List<Avdeling_min> getAvdeling() {
+		return avdeling;
+	}
+	public void setAvdeling(List<Avdeling_min> avdeling) {
+		this.avdeling = avdeling;
+	}
+	 
 
 	public void skrivUt() {
 		System.out.println("Ansatt ID: " + ansatt_id);

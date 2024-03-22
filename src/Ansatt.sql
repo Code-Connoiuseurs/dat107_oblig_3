@@ -35,6 +35,42 @@ CREATE TABLE oblig3_min.prosjekt (
 INSERT INTO oblig3_min.ansatt (brukernavn, fornavn, etternavn, ansett_dato, stilling, maanedslonn, avdeling_id)
 VALUES 
     ('lph', 'Lars', 'Hansen', '2022-01-01', 'Senior Utvikler', 60000.00, 'IT'),
-    ('annie', 'Anna', 'Berg', '2022-02-15', 'Prosjektleder', 70000.00, 'Prosjektledelse'),
-    ('momo', 'Marius', 'Nilsen', '2022-03-10', 'Systemarkitekt', 75000.00, 'IT '),
-    ('Syz', 'Susu', 'Ytre', '2022-04-20', 'Utvikler', 55000.00, 'IT fyr');
+    ('annie', 'Anna', 'Berg', '2022-02-15', 'Prosjektleder', 70000.00, 'Prosjektleder'),
+    ('momo', 'Marius', 'Nilsen', '2022-03-10', 'Systemarkitekt', 75000.00, 'IT'),
+    ('Syz', 'Susu', 'Ytre', '2022-04-20', 'Utvikler', 55000.00, 'IT leder'),
+    ('boso', 'Bore', 'Setre', '2024-01-01', 'Senior Utvikler', 20000.00, 'sosiale media ekspert'),
+    ('joh', 'Johan', 'Olsen', '2019-10-15', 'Prosjektleder', 100000.00, 'en fyr'),
+    ('lass', 'Lasse', 'Banden', '2023-06-10', 'Systemarkitekt', 43000.00, 'Yoga assistent '),
+    ('simsin', 'Simen', 'Geir', '2020-04-20', 'Utvikler', 51000.00, 'Linux bruker'),
+    ('ben', 'Bendik', 'Petter', '2024-06-01', 'Senior Utvikler', 110000.00, 'Gamer');
+
+INSERT INTO oblig3_min.avdeling(navn) 
+VALUES
+    ('IT avdeling'),
+    ('Prosjektledelse'),
+    ('Moro avdeling');
+
+
+UPDATE oblig3_min.avdeling
+SET avdeling_sjef_id =(
+    SELECT ansatt_id
+    FROM oblig3_min.ansatt
+    WHERE brukernavn = 'simsin'
+)   
+WHERE navn = 'IT avdeling';
+
+UPDATE oblig3_min.avdeling
+SET avdeling_sjef_id =(
+    SELECT ansatt_id
+    FROM oblig3_min.ansatt
+    WHERE brukernavn = 'annie'
+)   
+WHERE navn = 'Prosjektledelse';
+
+UPDATE oblig3_min.avdeling
+SET avdeling_sjef_id =(
+    SELECT ansatt_id
+    FROM oblig3_min.ansatt
+    WHERE brukernavn = 'ben'
+)   
+WHERE navn = 'Moro avdeling';

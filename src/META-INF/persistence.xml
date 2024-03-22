@@ -7,6 +7,7 @@
 	<persistence-unit name="persistenceAnsattUnit" transaction-type="RESOURCE_LOCAL">
 	
 		<class>Database_Script.Ansatt_min</class>
+		<class>Database_Script.Avdeling_min</class>
 		
 				
 		<properties>

@@ -1,14 +1,12 @@
 package Database_Script;
 
 import java.util.List;
-import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class AnsattDAO_min {

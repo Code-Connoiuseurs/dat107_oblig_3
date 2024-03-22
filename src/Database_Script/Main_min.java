@@ -8,15 +8,17 @@ public class Main_min {
 
 	private static final AnsattDAO_min ansattDAO_min = new AnsattDAO_min();
 	private static final Scanner scanner = new Scanner(System.in);
+	private static final AvdelingDAO_min avdelingDAO_min = new AvdelingDAO_min();
 
 	public static void main(String[] args) {
 		boolean progKjører = true;
 
 		while (progKjører) {
-			System.out.println("q : stop programmet. \n" + "1 : Finn ansatt ved bruk av id. \n"
+
+			System.out.println("\nq : stop programmet. \n" + "1 : Finn ansatt ved bruk av id. \n"
 					+ "2 : Finn ansatt ved bruk av brukernavn. \n" + "3 : Liste av alle anstte. \n"
 					+ "4 : Oppdater en ansatt sin stilling. \n" + "5 : Oppdater en ansatt sin lønn. \n"
-					+ "6 : legg inn en ny ansatt.");
+					+ "6 : legg inn en ny ansatt. \n" + "7 : finn avdeling med id.");
 
 			String valgt = scanner.nextLine();
 			try {
@@ -79,9 +81,9 @@ public class Main_min {
 					double nyLonn = Double.parseDouble(scanner.nextLine());
 					System.out.println(ansattDAO_min.oppdaterLonn(idAn, nyLonn));
 					break;
-					
+
 				case "6":
-				
+
 					System.out.println("Brukernavn: ");
 					String brukernavn = scanner.nextLine();
 					System.out.println("Fornavn: ");
@@ -90,18 +92,25 @@ public class Main_min {
 					String etternavn = scanner.nextLine();
 
 					LocalDate ansett_dato = LocalDate.now();
-					
+
 					System.out.println("Stilling: ");
 					String stilling = scanner.nextLine();
 					System.out.println("Lønn: ");
 					double lonn = Double.parseDouble(scanner.nextLine());
-					
-					Ansatt_min nyAnsatt = new Ansatt_min(brukernavn, fornavn, etternavn,
-							ansett_dato,stilling, lonn, null); // null blir stilling
-					
+
+					Ansatt_min nyAnsatt = new Ansatt_min(brukernavn, fornavn, etternavn, ansett_dato, stilling, lonn,
+							null); // null blir stilling
+
 					System.out.println();
 					nyAnsatt.skrivUt();
 					System.out.println();
+					break;
+					
+				case "7": 
+					System.out.println("Avdeling id: ");
+					int avdelingId = Integer.parseInt(scanner.nextLine());
+					Avdeling_min avdeling = avdelingDAO_min.finnAvdelingMedId(avdelingId);
+					avdeling.skrivUt();
 					break;
 					
 				default:
