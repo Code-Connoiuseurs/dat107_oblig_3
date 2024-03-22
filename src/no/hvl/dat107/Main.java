@@ -5,13 +5,16 @@ import java.util.Scanner;
 
 import no.hvl.dat107.dao.AnsattDAO;
 import no.hvl.dat107.dao.AvdelingDAO;
+import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
+import no.hvl.dat107.entity.Prosjekt;
 
 public class Main {
 	private static final AnsattDAO ansattDao = new AnsattDAO();
-	private static final Scanner scanner = new Scanner(System.in);
 	private static final AvdelingDAO avdelingDAO = new AvdelingDAO();
+	private static final ProsjektDAO prosjektDAO = new ProsjektDAO();
+	private static final Scanner scanner = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		boolean programKjører = true;		
@@ -27,7 +30,8 @@ public class Main {
 					+ "6: legg til ny ansatt\n"
 					+ "7: finn avdeling med id\n"
 					+ "8: legg til ny avdeling\n"
-					+ "9: oppdater ansatt sin avdeling");
+					+ "9: oppdater ansatt sin avdeling"
+					+ "10: legg til nytt prosjekt");
 			
 			String valg = scanner.nextLine();
 			try {
@@ -116,6 +120,17 @@ public class Main {
 					System.out.print("Ny avdelingsid:");
 					int avdelingsid8 = Integer.parseInt(scanner.nextLine());
 					System.out.println(ansattDao.oppdaterAnsattSinAvdeling(ansattId, avdelingsid8));
+					break;
+				case "10": // Legg til nytt prosjekt
+					System.out.print("Navn på prosjekt: ");
+					String prosjektNavn = scanner.nextLine();
+					
+					System.out.print("Prosjekt beskrivelse: ");
+					String prosjektBeskrivelse = scanner.nextLine();
+					
+					System.out.println(prosjektDAO.lagreNyttProsjekt(new Prosjekt(
+						prosjektNavn, prosjektBeskrivelse
+					)));
 					break;
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");
