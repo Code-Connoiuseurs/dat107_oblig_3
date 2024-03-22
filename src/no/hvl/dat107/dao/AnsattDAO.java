@@ -178,26 +178,6 @@ public class AnsattDAO {
 
 	}
 
-	public void slettProsjektdeltagelse(int ansattId, int prosjektId) {
-
-		EntityManager em = emf.createEntityManager();
-		EntityTransaction tx = em.getTransaction();
-		try {
-			tx.begin();
-
-			// TODO - Må søke med JPQL. Ellers som i b) Se hjelpemetode under.
-
-			tx.commit();
-		} catch (Throwable e) {
-			e.printStackTrace();
-			if (tx.isActive()) {
-				tx.rollback();
-			}
-		} finally {
-			em.close();
-		}
-	}
-
 	@SuppressWarnings("unused")
 	private Prosjektdeltagelse finnProsjektdeltagelse(int ansattId, int prosjektId) {
 
