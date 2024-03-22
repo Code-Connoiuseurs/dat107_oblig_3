@@ -2,6 +2,7 @@ package no.hvl.dat107.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import no.hvl.dat107.dao.AvdelingDAO;
 
 @Entity
 @Table(name = "avdeling", schema = "oblig_3")
@@ -25,7 +27,7 @@ public class Avdeling {
 	@JoinColumn(name = "sjefsid")
 	private Ansatt sjef;
 	
-	@OneToMany (mappedBy = "avdeling", fetch = FetchType.EAGER )
+	@OneToMany (mappedBy = "avdeling", fetch = FetchType.EAGER)
 	private List<Ansatt> ansatte;
 
 	public Avdeling() {
@@ -69,12 +71,26 @@ public class Avdeling {
 		this.navn = navn;
 	}
 	
+	public void leggTil(Ansatt ansatt) {
+		ansatte.add(ansatt);
+		ansatt.setAvdeling(this);
+	}
+	
+	public void fjern(Ansatt ansatt) {
+		ansatte.remove(ansatt);
+		ansatt.setAvdeling(null);
+	}
+	
 	@Override
 	public String toString() {
 		String s = "Avdeling [avdelingsid=" + id + ", navn=" + navn + ", sjefsId=" + sjef.getId() + "]\n";
+		
 		for(Ansatt a : ansatte) {
 			s+= "\t" + a;
 		}
+		
+		Ansatt sjef = getSjef();		
+		s+= "\n Sjef : " + sjef.toString();
 		
 		return s;
 	}

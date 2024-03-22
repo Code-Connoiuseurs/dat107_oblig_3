@@ -10,7 +10,7 @@ import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
 
 public class AvdelingDAO {
-	
+
 	private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("ansattPersistenceUnit");
 
 	public Avdeling finnAvdelingMedId(Integer avdelingsid) {
@@ -28,14 +28,14 @@ public class AvdelingDAO {
 			em.close();
 		}
 	}
-	
+
 	public boolean lagreNyAvdeling(Avdeling nyAvdeling) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 
 		try {
 			tx.begin();
-			
+
 			Ansatt sjef = nyAvdeling.getSjef();
 			Avdeling tidligereAvdeling = em.find(Avdeling.class, sjef.getAvdeling().getId());
 
@@ -45,9 +45,9 @@ public class AvdelingDAO {
 				System.out.println("Du kan ikke endre en sjef sin avdeling.");
 				return false;
 			}
-			
+
 			em.persist(nyAvdeling);
-			
+
 			tx.commit();
 			return true;
 		} catch (Throwable e) {
@@ -60,5 +60,23 @@ public class AvdelingDAO {
 			em.close();
 		}
 	}
-	
+
+	public void oppdaterAvdeling(Avdeling oppdatertAvdeling) {
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction tx = em.getTransaction();
+		try {
+			tx.begin();
+
+			em.merge(oppdatertAvdeling);
+
+			tx.commit();
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			tx.rollback();
+		} finally {
+			em.close();
+		}
+
+	}
 }

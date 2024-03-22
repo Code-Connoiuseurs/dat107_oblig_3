@@ -30,7 +30,7 @@ public class Main {
 					+ "6: legg til ny ansatt\n"
 					+ "7: finn avdeling med id\n"
 					+ "8: legg til ny avdeling\n"
-					+ "9: oppdater ansatt sin avdeling"
+					+ "9: oppdater ansatt sin avdeling\n"
 					+ "10: legg til nytt prosjekt");
 			
 			String valg = scanner.nextLine();
@@ -90,9 +90,11 @@ public class Main {
 					
 					if (avdeling == null) break;
 					
-					System.out.println(ansattDao.lagreNyAnsatt(new Ansatt(
-							brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn, avdeling
-					)));
+					Ansatt nyAnsatt = new Ansatt(brukernavn, fornavn, etternavn, ansettelsesdato, stilling, lonn, avdeling);
+					avdeling.leggTil(nyAnsatt);
+					System.out.println(ansattDao.lagreNyAnsatt(nyAnsatt));
+					avdelingDAO.oppdaterAvdeling(avdeling);
+
 					break;
 				case "7": // finn avdeling med id
 					System.out.print("Avdelingsid:");
@@ -119,6 +121,18 @@ public class Main {
 					int ansattId = Integer.parseInt(scanner.nextLine());
 					System.out.print("Ny avdelingsid:");
 					int avdelingsid8 = Integer.parseInt(scanner.nextLine());
+					
+					
+					
+					Avdeling nyAvd = avdelingDAO.finnAvdelingMedId(avdelingsid8);
+					nyAvd.leggTil(ansattDao.finnAnsattMedId(ansattId));
+					avdelingDAO.oppdaterAvdeling(nyAvd);
+					
+					Avdeling avd = ansattDao.finnAnsattMedId(ansattId).getAvdeling();
+					avd.fjern(ansattDao.finnAnsattMedId(ansattId));
+//					avdelingDAO.fjernAnsattFraAvdeling(avd, ansattId);
+					avdelingDAO.oppdaterAvdeling(avd);
+					
 					System.out.println(ansattDao.oppdaterAnsattSinAvdeling(ansattId, avdelingsid8));
 					break;
 				case "10": // Legg til nytt prosjekt
