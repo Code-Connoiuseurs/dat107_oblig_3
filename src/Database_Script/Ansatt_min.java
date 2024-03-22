@@ -1,11 +1,11 @@
 package Database_Script;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,8 +22,9 @@ public class Ansatt_min {
 	private Double maanedslonn;
 	private String avdeling_id;
 	
-	@OneToMany(mappedBy = "avdeling_sjef_id")
-	private List<Avdeling_min> avdeling;
+	@ManyToOne
+	@JoinColumn(name = "avdeling_id")
+	private Avdeling_min avdeling;
 
 	public Ansatt_min() {
 	}
@@ -101,10 +102,10 @@ public class Ansatt_min {
 	public void setAvdeling(String avdeling) {
 		this.avdeling_id = avdeling;
 	}
-	public List<Avdeling_min> getAvdeling() {
+	public Avdeling_min getAvdeling() {
 		return avdeling;
 	}
-	public void setAvdeling(List<Avdeling_min> avdeling) {
+	public void setAvdeling(Avdeling_min avdeling) {
 		this.avdeling = avdeling;
 	}
 	 
