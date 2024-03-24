@@ -5,13 +5,13 @@ SET search_path TO oblig3_min;
 
 CREATE TABLE oblig3_min.ansatt (
     ansatt_id SERIAL PRIMARY KEY,
-    brukernavn VARCHAR(6) UNIQUE NOT NULL,
+    brukernavn CHAR(4) UNIQUE NOT NULL,
     fornavn VARCHAR(50) NOT NULL, 
     etternavn VARCHAR(50) NOT NULL, 
-    ansett_dato DATE,
+    ansettelsesdato DATE,
     stilling VARCHAR(50),
     maanedslonn DECIMAL(10, 2),
-    avdeling_id VARCHAR(50)
+    avdeling_id INTEGER
 );
 
 CREATE TABLE oblig3_min.avdeling (
@@ -21,28 +21,17 @@ CREATE TABLE oblig3_min.avdeling (
     FOREIGN KEY (avdeling_sjef_id) REFERENCES ansatt(ansatt_id)
 );
 
-CREATE TABLE oblig3_min.prosjekt (
-    prosjekt_id SERIAL PRIMARY KEY,
-    navn VARCHAR(50),
-    beskrivelse TEXT,
-    ansatt_id INTEGER,
-    rolle VARCHAR(50),
-    arbeidstimer INTEGER,
-    FOREIGN KEY (ansatt_id) REFERENCES ansatt(ansatt_id)
-);
-
-
-INSERT INTO oblig3_min.ansatt (brukernavn, fornavn, etternavn, ansett_dato, stilling, maanedslonn, avdeling_id)
+INSERT INTO oblig3_min.ansatt (brukernavn, fornavn, etternavn, ansettelsesdato, stilling, maanedslonn, avdeling_id)
 VALUES 
-    ('lph', 'Lars', 'Hansen', '2022-01-01', 'Senior Utvikler', 60000.00, 'IT'),
-    ('annie', 'Anna', 'Berg', '2022-02-15', 'Prosjektleder', 70000.00, 'Prosjektleder'),
-    ('momo', 'Marius', 'Nilsen', '2022-03-10', 'Systemarkitekt', 75000.00, 'IT'),
-    ('Syz', 'Susu', 'Ytre', '2022-04-20', 'Utvikler', 55000.00, 'IT leder'),
-    ('boso', 'Bore', 'Setre', '2024-01-01', 'Senior Utvikler', 20000.00, 'sosiale media ekspert'),
-    ('joh', 'Johan', 'Olsen', '2019-10-15', 'Prosjektleder', 100000.00, 'en fyr'),
-    ('lass', 'Lasse', 'Banden', '2023-06-10', 'Systemarkitekt', 43000.00, 'Yoga assistent '),
-    ('simsin', 'Simen', 'Geir', '2020-04-20', 'Utvikler', 51000.00, 'Linux bruker'),
-    ('ben', 'Bendik', 'Petter', '2024-06-01', 'Senior Utvikler', 110000.00, 'Gamer');
+    ('lph', 'Lars', 'Hansen', '2022-01-01', 'Senior Utvikler', 60000.00, '1'),
+    ('anne', 'Anna', 'Berg', '2022-02-15', 'Prosjektleder', 70000.00, '1'),
+    ('momo', 'Marius', 'Nilsen', '2022-03-10', 'Systemarkitekt', 735000.00, '2'),
+    ('Syz', 'Susu', 'Ytre', '2022-04-20', 'Utvikler', 55000.00, '4'),
+    ('boso', 'Bore', 'Setre', '2024-01-01', 'Senior Utvikler', 20000.00, '2'),
+    ('joh', 'Johan', 'Olsen', '2019-10-15', 'Prosjektleder', 100000.00, '4'),
+    ('lass', 'Lasse', 'Banden', '2023-06-10', 'Systemarkitekt', 43000.00, '3 '),
+    ('sims', 'Simen', 'Geir', '2020-04-20', 'Utvikler', 51000.00, '1'),
+    ('ben', 'Bendik', 'Petter', '2024-06-01', 'Senior Utvikler', 110000.00, '3');
 
 INSERT INTO oblig3_min.avdeling(navn) 
 VALUES
@@ -56,7 +45,8 @@ SET avdeling_sjef_id =(
     SELECT ansatt_id
     FROM oblig3_min.ansatt
     WHERE brukernavn = 'simsin'
-)   
+)
+
 WHERE navn = 'IT avdeling';
 
 UPDATE oblig3_min.avdeling
