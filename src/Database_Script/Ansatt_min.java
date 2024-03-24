@@ -2,8 +2,9 @@ package Database_Script;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -11,9 +12,9 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "ansatt", schema = "oblig3_min")
 public class Ansatt_min {
-
-	@Id
-	private Integer ansatt_id;
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id private Integer ansatt_id;
 	private String brukernavn;
 	private String fornavn;
 	private String etternavn;
@@ -22,11 +23,8 @@ public class Ansatt_min {
 	private Double maanedslonn;
 	private String avdeling_id;
 	
-	@OneToMany(mappedBy = "avdeling_sjef_id")
+	@OneToMany(mappedBy = "avdelingSjef")
 	private List<Avdeling_min> avdeling;
-
-	public Ansatt_min() {
-	}
 
 	public Ansatt_min(String brukernavn, String fornavn, String etternavn, LocalDate ansett_dato, String stilling,
 			Double maanedslonn, String avdeling) {
@@ -86,7 +84,7 @@ public class Ansatt_min {
 		this.stilling = stilling;
 	}
 
-	public double getMndLonn() {
+	public double getMaanedsLonn() {
 		return maanedslonn;
 	}
 
@@ -100,7 +98,7 @@ public class Ansatt_min {
 
 	public void setAvdeling(String avdeling) {
 		this.avdeling_id = avdeling;
-	}
+	}	
 	public List<Avdeling_min> getAvdeling() {
 		return avdeling;
 	}

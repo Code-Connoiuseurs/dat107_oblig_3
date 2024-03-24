@@ -16,16 +16,15 @@ public class Avdeling_min {
 	
 	@ManyToOne
 	@JoinColumn(name = "avdeling_sjef_id")
-	private Ansatt_min avdeling_sjef_id;
-	
+	private Ansatt_min avdelingSjef;
 	
 	public Avdeling_min() {
-	}
+	}	
 	
-	public Avdeling_min(Integer avdeling_id, String navn, Ansatt_min avdeling_sjef_id) {
+	public Avdeling_min(Integer avdeling_id, String navn, Ansatt_min avdelingSjef) {
 		this.avdeling_id = avdeling_id;
 		this.navn = navn;
-		this.avdeling_sjef_id = avdeling_sjef_id;
+		this.avdelingSjef = avdelingSjef;
 		
 	}
 	public Integer getAvdelingId() {
@@ -42,15 +41,15 @@ public class Avdeling_min {
 		this.navn = navn;
 	}
 	public Ansatt_min getAvdelingSjef() {
-		return avdeling_sjef_id;
+		return avdelingSjef;
 	}
-	public void setAvdelingSjef(Ansatt_min avdeling_sjef_id) {
-		this.avdeling_sjef_id = avdeling_sjef_id;
+	public void setAvdelingSjef(Ansatt_min avdelingSjef) {
+		this.avdelingSjef = avdelingSjef;
 	}
 	public void skrivUt() {
 		
-		String sjefInfo = avdeling_sjef_id != null ? "ID: " + avdeling_sjef_id.getAnsattId() + ", Navn: " + avdeling_sjef_id.getFornavn() 
-		+ " " + avdeling_sjef_id.getEtternavn() : "Ingen avdeling sjef";
+		String sjefInfo = avdelingSjef != null ? "ID: " + avdelingSjef.getAnsattId() + ", Navn: " + avdelingSjef.getFornavn() 
+		+ " " + avdelingSjef.getEtternavn() : "Ingen avdeling sjef";
 		System.out.println("Avdeling id: " + avdeling_id + "\n"
 				+ "Avdeling navn: " + navn + "\n"
 				+ "Avdelingssjef: " + sjefInfo);

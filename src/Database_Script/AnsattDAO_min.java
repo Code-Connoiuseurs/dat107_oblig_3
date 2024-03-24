@@ -10,7 +10,12 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 
 public class AnsattDAO_min {
-
+	private AvdelingDAO_min avdelingDAO;
+	
+	public void ansattDAO_min(AvdelingDAO_min avdelingDAO) {
+		this.avdelingDAO = avdelingDAO;
+	}
+	
 	private static final EntityManagerFactory emf;
 	static {
 		emf = Persistence.createEntityManagerFactory("persistenceAnsattUnit");
@@ -21,14 +26,8 @@ public class AnsattDAO_min {
 		EntityManager em = emf.createEntityManager();
 
 		try {
-			String s = "SELECT a FROM Ansatt_min a WHERE a.ansatt_id = :id ";
-			TypedQuery<Ansatt_min> query = em.createQuery(s, Ansatt_min.class);
-			query.setParameter("id", id);
-			return query.getSingleResult();
-
-		} catch (NoResultException e) {
-			System.out.println("Ingen ansatt med id: " + id + " er funnet");
-			return null;
+			return em.find(Ansatt_min.class, id);
+			
 		} finally {
 			em.close();
 		}
@@ -127,15 +126,24 @@ public class AnsattDAO_min {
 		try {
 			tx.begin();
 
+			int avdelingId = Integer.parseInt(nyAnsatt.getAvdelingId());
+			Avdeling_min avdeling = avdelingDAO.finnAvdelingMedId(avdelingId);	
+			
+			if(avdeling == null) {
+				System.out.println("Feil avdeling med ID: " + nyAnsatt.getAvdelingId() + " eksisterer ikke");
+				return false;
+			}
+			nyAnsatt.setAvdeling(avdeling.getNavn());
 			em.persist(nyAnsatt);
 
 			tx.commit();
 			return true;
 
 		} catch (Throwable e) {
-			e.printStackTrace();
+			e.printStackTrace();	
 			if (tx.isActive()) {
 				tx.rollback();
+				
 			}
 			return false;
 		} finally {

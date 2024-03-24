@@ -90,6 +90,8 @@ public class Main_min {
 					String fornavn = scanner.nextLine();
 					System.out.println("Etternavn: ");
 					String etternavn = scanner.nextLine();
+					System.out.println("Avdeling id: ");
+					String avdelingId = scanner.nextLine();
 
 					LocalDate ansett_dato = LocalDate.now();
 
@@ -99,7 +101,7 @@ public class Main_min {
 					double lonn = Double.parseDouble(scanner.nextLine());
 
 					Ansatt_min nyAnsatt = new Ansatt_min(brukernavn, fornavn, etternavn, ansett_dato, stilling, lonn,
-							null); // null blir stilling
+							avdelingId); // null blir stilling
 
 					System.out.println();
 					nyAnsatt.skrivUt();
@@ -108,8 +110,8 @@ public class Main_min {
 					
 				case "7": 
 					System.out.println("Avdeling id: ");
-					int avdelingId = Integer.parseInt(scanner.nextLine());
-					Avdeling_min avdeling = avdelingDAO_min.finnAvdelingMedId(avdelingId);
+					int avdId = Integer.parseInt(scanner.nextLine());
+					Avdeling_min avdeling = avdelingDAO_min.finnAvdelingMedId(avdId);
 					avdeling.skrivUt();
 					break;
 					

@@ -13,6 +13,7 @@ public class AvdelingDAO_min {
 	static {
 		emf = Persistence.createEntityManagerFactory("persistenceAnsattUnit");
 	}
+	
 	public Avdeling_min finnAvdelingMedId(int id) {
 		EntityManager em = emf.createEntityManager();
 		
