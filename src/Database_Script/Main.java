@@ -8,6 +8,7 @@ public class Main {
 
 	private static final AnsattDAO ansattDAO = new AnsattDAO();
 	private static final Scanner scanner = new Scanner(System.in);
+	private static final AvdelingDAO avdelingDAO = new AvdelingDAO();
 
 	public static void main(String[] args) {
 		boolean programmetkjører = true;
@@ -17,7 +18,10 @@ public class Main {
 			System.out.println("\nq stop programmet. \n" + "1 : Finn ansatt ved bruk av id. \n"
 					+ "2 : Finn ansatt ved bruk av brukernavn. \n" + "3 : utlisting av alle Ansatt. \n"
 					+ "4 : Oppdater stilling til ansatt. \n" + "5 : Oppdater lønn til Ansatt. \n"
-					+ "6 : Legg til ny ansatt. \n");
+					+ "6 : Legg til ny ansatt. \n"
+					+ "7 : Finn avdenling ved bruk av id. \n"
+					+ "8 : Utlisting av ansatte i avdeling ved bruk av id. \n"
+					+ "9 : Oppdater avdeling til ansatt"  );
 
 			String valgt = scanner.nextLine();
 			try {
@@ -82,15 +86,54 @@ public class Main {
 					System.out.println("Lønn: ");
 					Double lonn = Double.parseDouble(scanner.nextLine());
 					
-				//	System.out.println("avdeling id: ");
-				//	int avdelingId = avdelingDAO
+					System.out.println("avdeling id: ");
+					int avdelingId = Integer.parseInt(scanner.nextLine());
+					Avdeling avdeling = avdelingDAO.finnAvdelingMedId(avdelingId);
 					
 					Ansatt nyAnsatt = new Ansatt(brukernavn, fornavn, etternavn, ansettelsesdato,
-							stilling, lonn, null);
+							stilling, lonn, avdeling);
 					System.out.println(ansattDAO.leggTilAnsatt(nyAnsatt));
 					break;
+				
+				case "7": 
+					System.out.println("Avdeling ID: ");
+					System.out.println(avdelingDAO.finnAvdelingMedId(Integer.parseInt(scanner.nextLine())));
+					break;
 					
+				case "8": 	
+					System.out.println("Avdeling ID: ");
+					List<Ansatt> ansattInfo = avdelingDAO.utlistingAvAlleIAvdeling(Integer.parseInt(scanner.nextLine()));
+					for(Ansatt a : ansattInfo) {
+						System.out.println("\n" + a);
+					}
+					break;
+				case "9": 
+					System.out.println("Ansatt Id: ");
+					int ansattId4 = Integer.parseInt(scanner.nextLine());
 
+					System.out.println("Ny avdeling id: ");
+					int avdelingId4 = Integer.parseInt(scanner.nextLine());
+					
+					Ansatt ansatt = ansattDAO.finnAnsattMedId(ansattId4);
+					Avdeling nyAvdeling = avdelingDAO.finnAvdelingMedId(avdelingId4);
+					
+					if(ansatt != null && nyAvdeling != null) {
+						Avdeling gammleAvd = ansatt.getAvdeling();
+						
+					if(gammleAvd != null) {
+						gammleAvd.fjern(ansatt);
+						avdelingDAO.OppdaterAvdeling(gammleAvd);
+						}
+					
+						nyAvdeling.leggTil(ansatt);
+						avdelingDAO.OppdaterAvdeling(nyAvdeling);
+						System.out.println(ansattDAO.oppdaterAnsattAvdeling(ansattId4, avdelingId4));
+					} else {
+						System.out.println("Avdelingen ble ikke oppdatert");
+					}
+				
+					break;
+					
 				default:
 					System.out.println("\nUgyldig, prøv igjen. \n");
 					break;

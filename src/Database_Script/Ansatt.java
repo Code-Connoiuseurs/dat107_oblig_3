@@ -6,13 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ansatt", schema = "oblig3_min")
 public class Ansatt {
 
-		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer ansatt_id;
@@ -22,21 +23,28 @@ public class Ansatt {
 	private LocalDate ansettelsesdato;
 	private String stilling;
 	private double maanedslonn;
-	private Integer avdeling_id;
+
+	@ManyToOne
+	@JoinColumn(name = "avdeling_id")
+	private Avdeling avdeling;
 
 	public Ansatt() {
 
 	}
 
 	public Ansatt(String brukernavn, String fornavn, String etternavn, LocalDate ansettelsesdato, String stilling,
-			double maanedslonn, Integer avdeling_id) {
+			double maanedslonn, Avdeling avdeling) {
 		this.brukernavn = brukernavn;
 		this.fornavn = fornavn;
 		this.etternavn = etternavn;
 		this.ansettelsesdato = ansettelsesdato;
 		this.stilling = stilling;
 		this.maanedslonn = maanedslonn;
-		this.avdeling_id = avdeling_id;
+		this.avdeling = avdeling;
+	}
+
+	public Integer getAnsattId() {
+		return ansatt_id;
 	}
 
 	public String getBrukernavn() {
@@ -87,18 +95,20 @@ public class Ansatt {
 		this.maanedslonn = maanedslonn;
 	}
 
-	public Integer getAvdelingId() {
-		return avdeling_id;
+	public Avdeling getAvdeling() {
+		return avdeling;
 	}
-
-	public void setAvdelingId(Integer avdeling_id) {
-		this.avdeling_id = avdeling_id;
+	public void setAvdeling(Avdeling avdeling) {
+		this.avdeling = avdeling;
 	}
 
 	@Override
 	public String toString() {
-		return "Ansatt ID: " + ansatt_id + "\n" + "Brukernavn: " + brukernavn + "\n" + "Etternavn: " + etternavn + "\n"
-				+ "Ansettelsesdato: " + ansettelsesdato + "\n" + "Stilling: " + stilling + "\n" + "Månedslønn: "
-				+ maanedslonn + "\n" + "Avdeling ID: " + avdeling_id;
+		return "Ansatt ID: " + ansatt_id + "\n" 
+				+ "Brukernavn: " + brukernavn + "\n" + "Etternavn: " + etternavn + "\n"
+				+ "Ansettelsesdato: " + ansettelsesdato + "\n" 
+				+ "Stilling: " + stilling + "\n" + "Månedslønn: "
+				+ maanedslonn + "\n" + "Avdeling ID: " + avdeling.getAvdelingId()
+				+", Avdeling navn: "+ avdeling.getNavn();
 	}
 }
