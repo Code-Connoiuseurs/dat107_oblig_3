@@ -17,7 +17,7 @@ import no.hvl.dat107.dao.AvdelingDAO;
 @Entity
 @Table(name = "avdeling", schema = "oblig_3")
 public class Avdeling {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -26,8 +26,8 @@ public class Avdeling {
 	@OneToOne
 	@JoinColumn(name = "sjefsid")
 	private Ansatt sjef;
-	
-	@OneToMany (mappedBy = "avdeling", fetch = FetchType.EAGER)
+
+	@OneToMany(mappedBy = "avdeling", fetch = FetchType.EAGER)
 	private List<Ansatt> ansatte;
 
 	public Avdeling() {
@@ -70,28 +70,28 @@ public class Avdeling {
 	public void setNavn(String navn) {
 		this.navn = navn;
 	}
-	
+
 	public void leggTil(Ansatt ansatt) {
 		ansatte.add(ansatt);
 		ansatt.setAvdeling(this);
 	}
-	
+
 	public void fjern(Ansatt ansatt) {
 		ansatte.remove(ansatt);
 		ansatt.setAvdeling(null);
 	}
-	
+
 	@Override
 	public String toString() {
 		String s = "Avdeling [avdelingsid=" + id + ", navn=" + navn + ", sjefsId=" + sjef.getId() + "]\n";
-		
-		for(Ansatt a : ansatte) {
-			s+= "\t" + a;
+
+		for (Ansatt a : ansatte) {
+			s += "\t" + a;
 		}
-		
-		Ansatt sjef = getSjef();		
-		s+= "\n Sjef : " + sjef.toString();
-		
+
+		Ansatt sjef = getSjef();
+		s += "\n Sjef : " + sjef.toString();
+
 		return s;
 	}
 }

@@ -18,38 +18,42 @@ public class Prosjektdeltagelse {
 	private Integer id;
 	private Integer arbeidstimer;
 	private String rolle;
-	
-    @ManyToOne
-    @JoinColumn(name="prosjektid")
-    private Prosjekt prosjekt;
-    
-    @ManyToOne
-    @JoinColumn(name="ansattid")
-    private Ansatt ansatt;
-    
-    public Prosjektdeltagelse() {
-    	
-    }
-    
-    public Prosjektdeltagelse(Ansatt ansatt, Prosjekt prosjekt) {
-        this.ansatt = ansatt;
-        this.prosjekt = prosjekt;
-        this.arbeidstimer = 0;
-        //Hvis vi gjør dette her slipper vi å gjøre det i DAO
-        ansatt.leggTilProsjektdeltagelse(this);
-        prosjekt.leggTilProsjektdeltagelse(this);
-    }
-    
-    public Prosjektdeltagelse(Ansatt ansatt, Prosjekt prosjekt, int arbeidstimer, String rolle) {
-    	this(ansatt, prosjekt);
-        this.arbeidstimer = arbeidstimer;
-        this.rolle = rolle;
-    }
-    
+
+	@ManyToOne
+	@JoinColumn(name = "prosjektid")
+	private Prosjekt prosjekt;
+
+	@ManyToOne
+	@JoinColumn(name = "ansattid")
+	private Ansatt ansatt;
+
+	public Prosjektdeltagelse() {
+
+	}
+
+	public Prosjektdeltagelse(Ansatt ansatt, Prosjekt prosjekt) {
+		this.ansatt = ansatt;
+		this.prosjekt = prosjekt;
+		this.arbeidstimer = 0;
+		// Hvis vi gjør dette her slipper vi å gjøre det i DAO
+		ansatt.leggTilProsjektdeltagelse(this);
+		prosjekt.leggTilProsjektdeltagelse(this);
+	}
+
+	public Prosjektdeltagelse(Ansatt ansatt, Prosjekt prosjekt, int arbeidstimer, String rolle) {
+		this(ansatt, prosjekt);
+		this.arbeidstimer = arbeidstimer;
+		this.rolle = rolle;
+	}
+
 	@Override
 	public String toString() {
 		return "Prosjektdeltagelse [id=" + id + ", arbeidstimer=" + arbeidstimer + ", rolle=" + rolle + ", prosjekt="
-				+ prosjekt + ", ansatt=" + ansatt + "]";
+				+ prosjekt.getId() + ", ansatt=" + ansatt + "]";
+	}
+
+	public Integer getProsjekt() {
+		return prosjekt.getId();
 	}
 
 	public Integer getArbeidstimer() {

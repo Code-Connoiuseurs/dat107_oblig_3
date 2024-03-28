@@ -9,7 +9,6 @@ import no.hvl.dat107.dao.ProsjektDAO;
 import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Avdeling;
 import no.hvl.dat107.entity.Prosjekt;
-import no.hvl.dat107.entity.Prosjektdeltagelse;
 
 public class Main {
 	private static final AnsattDAO ansattDao = new AnsattDAO();
@@ -124,9 +123,7 @@ public class Main {
 					System.out.print("Ansatt id:");
 					int ansattId = Integer.parseInt(scanner.nextLine());
 					System.out.print("Ny avdelingsid:");
-					int avdelingsid8 = Integer.parseInt(scanner.nextLine());
-					
-					
+					int avdelingsid8 = Integer.parseInt(scanner.nextLine());					
 					
 					Avdeling nyAvd = avdelingDAO.finnAvdelingMedId(avdelingsid8);
 					nyAvd.leggTil(ansattDao.finnAnsattMedId(ansattId));
@@ -171,9 +168,8 @@ public class Main {
 					break;		
 				case "13": // Skriv ut info om prosjekt
 					System.out.println("Alle prosjekter: ");
-					System.out.println(prosjektDAO.hentAlleProsjektdeltagelser());
+					System.out.println(prosjektDAO.hentAlleProsjekt());
 					break;
-
 				default:
 					System.out.println("Ugyldig valg, prøv igjen");
 					break;

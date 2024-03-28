@@ -6,8 +6,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
-import no.hvl.dat107.entity.Ansatt;
 import no.hvl.dat107.entity.Prosjekt;
 import no.hvl.dat107.entity.Prosjektdeltagelse;
 
@@ -49,7 +49,7 @@ public class ProsjektDAO {
 			em.close();
 		}
 	}
-	
+
 	public List<Prosjektdeltagelse> hentAlleProsjektdeltagelser() {
 		EntityManager em = emf.createEntityManager();
 
@@ -62,4 +62,30 @@ public class ProsjektDAO {
 		}
 	}
 
+	public List<Prosjekt> hentAlleProsjekt() {
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			String q = "select p from Prosjekt as p";
+			TypedQuery<Prosjekt> tq = em.createQuery(q, Prosjekt.class);
+			return tq.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+
+	public String summerArbeidstimer(Integer prosjektid) {
+		String s = "Antall arbeidstimer totalt for prosjekt med id " + prosjektid + ": ";
+		EntityManager em = emf.createEntityManager();
+
+		try {
+			String q = "select SUM(p.arbeidstimer) from Prosjektdeltagelse p where p.prosjekt.id = :prosjektid";
+			Query query = em.createQuery(q, Prosjekt.class);
+			query.setParameter("prosjektid", prosjektid);
+			s += query.getSingleResult();
+		} finally {
+			em.close();
+		}
+		return "\n" + s + "\n\n";
+	}
 }

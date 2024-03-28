@@ -265,7 +265,8 @@ public class AnsattDAO {
 			tx.commit();
 			return true;
 		} catch (Throwable e) {
-			e.printStackTrace();
+			System.out.println("Prosjektet finnes ikke, eller den ansatte er ikke registrert som deltager.");
+//			e.printStackTrace();
 			if (tx.isActive()) {
 				tx.rollback();
 			}
